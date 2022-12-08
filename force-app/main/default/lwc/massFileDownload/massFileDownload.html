@@ -1,0 +1,92 @@
+<!-- Code by CafeForce || www.cafeforce.com || support@cafeforce.com || Mandatory Header -->
+ 
+<template>
+    <div class="MFD">
+        <div if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="small" ></lightning-spinner>
+        </div>
+        <div class="slds-clearfix slds-var-p-around_medium headerTopDiv">
+            <div class="slds-float_left">
+                <p class="slds-text-heading_small slds-p-around_x-small"><b>Mass Files Download
+                    <template if:true={data}> | Total Files - {totalFiles}</template>
+                </b></p>
+            </div>
+            <div class="slds-float_right">
+                <lightning-button-group>
+                    <lightning-button-icon icon-name="utility:refresh" variant="border-filled" alternative-text="Refresh" onclick={fetchDocumentRecords} disabled={disableRecordDropdown}></lightning-button-icon>
+                    <lightning-button label="Download" icon-name="utility:download" onclick={downloadFiles}></lightning-button>
+                    <lightning-button-icon icon-name="utility:chevronleft" variant="border-filled" name="Previous" alternative-text="previous" onclick={handleNavigation} disabled={disablePreviousButton}></lightning-button-icon>
+                    <lightning-button-icon icon-name="utility:chevronright" variant="border-filled" name="Next" alternative-text="next" onclick={handleNavigation} disabled={disableNextButton}></lightning-button-icon> &nbsp;
+                    <lightning-combobox name="recordSize"
+                        variant="label-hidden" value={recordSize}
+                        placeholder="Page" options={recordSizeList} disabled={disableRecordDropdown}
+                        class="pageCombobox" onchange={handleRecordSizeChange} ></lightning-combobox>
+                </lightning-button-group>
+            </div>
+        </div>
+        <div if:false={recordId} class="slds-p-bottom_medium slds-p-left_medium slds-p-right_medium headerTopDiv">
+            <div class="displayInline">
+                <lightning-combobox name="object" variant="label-hidden" value={selectedbject} placeholder="Select Object" options={objectOptions} onchange={handleObjectChange} required></lightning-combobox> &nbsp;
+                <lightning-combobox name="year" variant="label-hidden" value={selectedYear} placeholder="Year" options={yearOptions} class="yearCombobox" onchange={handleYearChange} ></lightning-combobox> &nbsp;
+                <lightning-combobox name="month" variant="label-hidden" value={selectedMonth} placeholder="Month" options={monthOptions} class="monthCombobox" onchange={handleMonthChange} ></lightning-combobox> &nbsp;
+                <lightning-button label="Fetch" variant="label-hidden" name="Fetch" onclick={fetchDocumentRecords} disabled={disableFetch}></lightning-button>
+            </div>
+        </div>
+        <div class="bodyDiv">
+            <template if:true={recordList}>
+                <div class="slds-grid slds-wrap tableHeader">
+                    <div class="slds-col slds-size_1-of-12 slds-p-around_xx-small">
+                    </div>
+                    <div class="slds-col slds-size_4-of-12 slds-p-top_x-small slds-p-bottom_x-small slds-p-right_x-small slds-p-left_small displayInline">
+                        <lightning-input type="checkbox" data-id="headerCheckbox" onclick={handleHeaderCheckbox} name="headerCheckbox" variant="label-hidden"></lightning-input>
+                        <span class="slds-p-left_small">Title</span>
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-around_x-small">
+                        Size
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-around_x-small">
+                        Type
+                    </div>
+                    <div class="slds-col slds-size_2-of-12 slds-p-around_x-small">
+                        Last Modified
+                    </div>
+                    <div class="slds-col slds-size_1-of-12 slds-p-around_x-small">
+                        Download
+                    </div>
+                </div>
+                <template for:each={recordList} for:item="rec" for:index="index">
+                    <div key={rec.Id} class="slds-grid slds-wrap tableBody">
+                        <div class="slds-col slds-size_1-of-12 slds-p-left_large slds-p-top_small">
+                            {rec.count}
+                        </div>
+                        <div class="slds-col slds-size_4-of-12 slds-p-around_small slds-truncate displayInline">
+                            <lightning-input type="checkbox" data-id="checkbox" value={rec.check} name={rec.ContentDocumentId} onchange={handleCheckbox} variant="label-hidden" style="min-width: 24px;"></lightning-input>
+                            <a target="_blank" onclick={navigateToRecordViewPage} data-key={rec.ContentDocumentId} class="slds-p-left_small slds-truncate">{rec.ContentDocument.Title}</a>
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-around_small slds-truncate">
+                            {rec.size}
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-around_small">
+                            {rec.ContentDocument.FileType}
+                        </div>
+                        <div class="slds-col slds-size_2-of-12 slds-p-around_small">
+                            <lightning-formatted-date-time value={rec.ContentDocument.LastModifiedDate}></lightning-formatted-date-time>
+                        </div>
+                        <div class="slds-col slds-size_1-of-12 slds-p-around_x-small tableCell">
+                            <lightning-button-icon name={rec.ContentDocumentId} icon-name="utility:download" variant="border-filled" alternative-text="download" onclick={downloadFile}></lightning-button-icon>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template if:false={recordList}>
+                <p class="noDataDiv">No Files Found</p>
+            </template>
+        </div>
+    </div>
+</template>
+<!-- 
+    Code by CafeForce 
+    Website: http://www.cafeforce.com 
+    DO NOT REMOVE THIS HEADER/FOOTER FOR FREE CODE USAGE 
+-->
+ 

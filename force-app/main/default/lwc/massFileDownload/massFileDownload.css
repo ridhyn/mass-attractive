@@ -1,0 +1,57 @@
+
+.MFD {
+    background: #fff;
+    position: relative;
+}
+.MFD .headerTopDiv {
+    background-color: #F3F2F2;
+}
+.MFD .headerText {
+    font-size: 17px;
+}
+.MFD .tableHeader {
+    font-weight: 600;
+    color: #777;
+    background-color: #FAFAF9;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+.MFD .tableCell {
+    padding: 5px;
+}
+.MFD .tableBody {
+    border-bottom: 1px solid #ddd;
+}
+.MFD .tableBody:hover {
+    background-color:#eee;
+}
+.MFD .bodyDiv {
+    height: 265px;
+    max-height: 300px;
+    overflow: auto;
+}
+.MFD .displayInline {
+    display: inline-flex;
+}
+.MFD .yearCombobox, .monthCombobox, .pageCombobox {
+    width: 100px;
+}
+.MFD .noDataDiv {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 20px;
+}
+/* For Scrolling */
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+::-webkit-scrollbar-track {
+   display: none !important;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0,0,0,0.4);
+}
+ 
